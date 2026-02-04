@@ -1,0 +1,466 @@
+% !TEX program = xelatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ATS-FRIENDLY RESUME TEMPLATE
+% Compiler: XeLaTeX
+% 
+% INSTRUCTIONS:
+% 1. Place your fonts in the ./fonts folder
+% 2. Place your icons in the ./icons folder
+% 3. Compile with: xelatex resume.tex
+% 4. Customize colors and fonts in the CONFIGURATION section below
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{article}
+
+%==============================================================================
+% PACKAGES
+%==============================================================================
+\usepackage{fontspec}           % Custom fonts (XeLaTeX)
+\usepackage{geometry}           % Page margins
+\usepackage{xcolor}             % Colors
+\usepackage{titlesec}           % Section formatting
+\usepackage{enumitem}           % List customization
+\usepackage{hyperref}           % Hyperlinks
+\usepackage{tabularx}           % Tables with flexible columns
+\usepackage{graphicx}           % Images
+\usepackage{tikz}               % For photo frame (optional)
+\usepackage{svg}                % SVG icons support
+\svgpath{{icons/}}              % Path to icons folder
+
+%==============================================================================
+% CONFIGURATION - CUSTOMIZE THESE VALUES
+%==============================================================================
+
+%------------------------------------------------------------------------------
+% COLORS - Change hex values to customize
+%------------------------------------------------------------------------------
+\definecolor{primary}{HTML}{2E5090}       % Main accent color (section titles, name)
+\definecolor{secondary}{HTML}{4A4A4A}     % Secondary text color
+\definecolor{accent}{HTML}{0066CC}        % Links and highlights
+\definecolor{textcolor}{HTML}{333333}     % Main body text
+\definecolor{lightgray}{HTML}{888888}     % Subtle text (dates, locations)
+
+%------------------------------------------------------------------------------
+% FONTS - Uncomment and modify to use custom fonts from ./fonts folder
+%------------------------------------------------------------------------------
+% Default fonts (system fonts)
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+
+% UNCOMMENT BELOW to use custom fonts from ./fonts folder:
+%\setmainfont{Roboto}[
+%    Path = ./fonts/,
+%    Extension = .ttf,
+%    UprightFont = *-Regular,
+%    BoldFont = *-Bold,
+%    ItalicFont = *-Italic,
+%    BoldItalicFont = *-BoldItalic
+%]
+%\setsansfont{SourceSans3}[
+%    Path = ./fonts/,
+%    Extension = .ttf,
+%    UprightFont = *-Regular,
+%    BoldFont = *-Bold,
+%    ItalicFont = *-Italic,
+%    BoldItalicFont = *-BoldItalic
+%]
+
+%------------------------------------------------------------------------------
+% LAYOUT SETTINGS
+%------------------------------------------------------------------------------
+\geometry{
+    top=1.5cm,
+    bottom=1.5cm,
+    left=1.4cm,
+    right=1.4cm
+}
+
+\pagestyle{empty}               % No page numbers
+\setlength{\parindent}{0pt}     % No paragraph indent
+\setlength{\parskip}{0pt}       % No paragraph spacing
+
+% Hyperlink style
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    pdfborder={0 0 0}
+}
+
+%==============================================================================
+% CUSTOM COMMANDS AND STYLES
+%==============================================================================
+
+%------------------------------------------------------------------------------
+% Bold text in entries (for highlighting keywords)
+%------------------------------------------------------------------------------
+\newcommand{\bold}[1]{\textbf{#1}}
+
+%------------------------------------------------------------------------------
+% Section Title Style with colored first letters
+%------------------------------------------------------------------------------
+% Usage: \coloredsection{Edu}{cation} -> "Edu" in primary color, "cation" in secondary
+\newcommand{\coloredsection}[2]{%
+    \vspace{15pt}%
+    \noindent{\Large\bfseries\sffamily{\color{primary}#1}{\color{secondary}#2}}%
+    \hspace{0.1em}
+    {\color{primary}{\leavevmode\leaders\hrule height 0.2ex depth -0.0ex\hfill\kern0pt}}
+    \par
+    \vspace{0.8em}%
+}
+
+% Keep original section command for those who don't want colored headers
+\titleformat{\section}
+    {\color{primary}\Large\bfseries\sffamily}
+    {}
+    {0pt}
+    {}
+    [\vspace{-6pt}\color{primary}\titlerule\vspace{-4pt}]
+
+\titlespacing*{\section}{0pt}{12pt}{8pt}
+
+%------------------------------------------------------------------------------
+% Header with Personal Information (without photo)
+%------------------------------------------------------------------------------
+\newcommand{\makeheader}[8]{%
+    % #1: Name, #2: Title, #3: Address, #4: Phone
+    % #5: Email, #6: Website, #7: GitHub, #8: LinkedIn
+    \begin{center}
+        {\Huge\bfseries\color{primary}\sffamily #1}\\[4pt]
+        {\large\color{secondary}#2}\\[8pt]
+        \color{textcolor}
+        #3 \quad $\bullet$ \quad #4 \quad $\bullet$ \quad \href{mailto:#5}{\color{accent}#5}\\[3pt]
+        \href{https://#6}{\color{accent}#6} \quad $\bullet$ \quad 
+        \href{https://github.com/#7}{\color{accent}github.com/#7} \quad $\bullet$ \quad 
+        \href{https://linkedin.com/in/#8}{\color{accent}linkedin.com/in/#8}
+    \end{center}
+    \vspace{6pt}
+}
+
+%------------------------------------------------------------------------------
+% Header with Personal Information (with photo)
+%------------------------------------------------------------------------------
+\newcommand{\makeheaderwithphoto}[9]{%
+    % #1: Name, #2: Title, #3: Address, #4: Phone
+    % #5: Email, #6: Website, #7: GitHub, #8: LinkedIn, #9: Photo path
+    
+    \noindent
+    % --- MIDDLE COLUMN (INFO) ---
+    \begin{minipage}[c]{0.85\textwidth}
+        \centering
+        
+        % NAME - Two color option:
+        {\fontsize{32pt}{1em}\bfseries\color{gray}Your} {\fontsize{32pt}{1em}\bfseries\color{darkgray}Name}\\[0.5em]
+        % Single color option (uncomment below and comment above):
+        % {\fontsize{32pt}{1em}\bfseries\color{darkgray} #1} \\[0.5em]
+        
+        % Title
+        {\fontsize{13.0pt}{1em}\scshape\color{secondary} #2} \\[0.2em]
+        
+        % Address
+        {\fontsize{9pt}{1em}\itshape\color{textcolor} #3} \\[0.1em]
+
+        % Contact Information with icons
+        \fontsize{10pt}{1em}{\includesvg[height=1.0em]{iphone}\space#4 \space \textbar \space \href{mailto:#5}{\includesvg[height=0.8em]{envelope}\space\color{accent}#5} \space \textbar \space \href{https://linkedin.com/in/#8}{\includesvg[height=0.8em]{linkedin}\space\color{accent}linkedin.com/in/#8} \\[0.1em]
+        \href{https://#6}{\includesvg[height=0.9em]{website}\space\color{accent}#6} \space \textbar \space \href{https://github.com/#7}{\includesvg[height=0.9em]{github}\space\color{accent}github.com/#7}}
+        
+    \end{minipage}%
+    % --- RIGHT COLUMN (PHOTO) ---
+    \begin{minipage}[c]{0.15\textwidth}
+        \raggedleft
+        \begin{tikzpicture}[baseline=(current bounding box.center)]
+            \clip (0,0) circle (1.4cm);
+            \node at (0,0) {\includegraphics[width=2.8cm]{#9}}; 
+        \end{tikzpicture}
+    \end{minipage}
+    \vspace{2pt}
+}
+
+%------------------------------------------------------------------------------
+% Summary Section
+%------------------------------------------------------------------------------
+\newcommand{\summary}[1]{%
+    \coloredsection{Sum}{mary}
+    \color{textcolor}#1 \\[-0.5em]
+}
+
+%------------------------------------------------------------------------------
+% Education Entry
+%------------------------------------------------------------------------------
+% Usage: \educationentry{Degree}{GPA}{School}{Place}{Date}
+\newcommand{\educationentry}[5]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#1}, GPA: #2 & \textcolor{lightgray}{#4} \\
+        \textit{#3} & \textcolor{lightgray}{#5} 
+    \end{tabularx}
+}
+
+% Education entry without GPA
+% Usage: \educationentrynogpa{Degree}{School}{Place}{Date}
+\newcommand{\educationentrynogpa}[4]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#1} & \textcolor{lightgray}{#3} \\
+        \textit{#2} & \textcolor{lightgray}{#4} \\
+    \end{tabularx}
+}
+
+% Thesis line with link
+% Usage: \thesis{Title}{Link}
+\newcommand{\thesis}[2]{%
+    \vspace{2pt}
+    \small\textbf{Thesis: }{\small #1} \textbf{[\href{#2}{\color{accent}Link}]}\\
+}
+
+% Thesis line without link
+% Usage: \thesisnolink{Title}
+\newcommand{\thesisnolink}[1]{%
+    \vspace{2pt}
+    \small\textbf{Thesis: }{\small #1}\\
+}
+
+% Description text
+\newcommand{\entrydescription}[1]{%
+    \vspace{2pt}
+    #1\\[-1.25em]
+}
+
+% Bullet items environment
+\newenvironment{entryitems}{%
+    \vspace{2pt}
+    \begin{itemize}[leftmargin=15pt, itemsep=1pt, parsep=0pt, topsep=0pt]
+}{%
+    \end{itemize}
+    \vspace{6pt}
+}
+
+%------------------------------------------------------------------------------
+% Skills Section
+%------------------------------------------------------------------------------
+% Skill category row
+\newcommand{\skillcategory}[2]{%
+    \textbf{#1} & #2 \\[6pt]
+}
+
+% Skills table environment
+% Column widths can be adjusted (currently 3.8cm and 13.2cm)
+\newenvironment{skillstable}{%
+    \begin{tabular}{@{}>{\raggedleft\arraybackslash}p{3.8cm} p{13.2cm}@{}} 
+}{%
+    \end{tabular}
+}
+
+%------------------------------------------------------------------------------
+% Professional Experience Entry
+%------------------------------------------------------------------------------
+% Two-line format: Company on first line, Title on second
+% Usage: \experienceentry{Company}{Place}{Title}{Date}
+\newcommand{\experienceentry}[4]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#1} & \textcolor{lightgray}{#2} \\
+        \textit{#3} & \textcolor{lightgray}{#4} \\
+    \end{tabularx}
+}
+
+% Single-line format: Company and Title on same line
+% Usage: \experienceentrysingleline{Company}{Place}{Title}{Date}
+\newcommand{\experienceentrysingleline}[4]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#1 - } \textit{#3} & \textcolor{lightgray}{#2 - } \textcolor{lightgray}{#4}\\
+    \end{tabularx}
+}
+
+%------------------------------------------------------------------------------
+% Project Entry
+%------------------------------------------------------------------------------
+% Usage: \projectentry{Role}{Team/Organization}{Place}{Date}
+\newcommand{\projectentry}[4]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#1} & \textcolor{lightgray}{#3} \\
+        \textit{#2} & \textcolor{lightgray}{#4} \\
+    \end{tabularx}
+}
+
+%------------------------------------------------------------------------------
+% Certificate Entry
+%------------------------------------------------------------------------------
+% Without link
+% Usage: \certificateentry{Date}{Name}{Course - Institution}
+\newcommand{\certificateentry}[3]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#2} -- #3 & \textcolor{lightgray}{#1} \\
+    \end{tabularx}
+}
+
+% With link
+% Usage: \certificateentrylink{Date}{Name}{Course - Institution}{Link}
+\newcommand{\certificateentrylink}[4]{%
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{#2} -- #3 \textbf{[\href{#4}{\color{accent}Certificate}]} & \textcolor{lightgray}{#1} \\
+    \end{tabularx}
+}
+
+%==============================================================================
+% DOCUMENT CONTENT - EDIT YOUR DATA BELOW
+%==============================================================================
+
+\begin{document}
+\color{textcolor}
+
+%------------------------------------------------------------------------------
+% HEADER - Personal Information
+%------------------------------------------------------------------------------
+% Option 1: WITHOUT photo (centered layout)
+%\makeheader
+%    {Your Name}                             % Name
+%    {Your Professional Title}              % Title
+%    {City, Country}                         % Address
+%    {+1 234 567 8900}                       % Phone
+%    {your.email@example.com}                % Email
+%    {yourwebsite.com}                       % Website (without https://)
+%    {your-github}                           % GitHub username
+%    {your-linkedin}                         % LinkedIn username
+
+% Option 2: WITH photo (side-by-side layout)
+\makeheaderwithphoto
+    {Your Name}                             % Name
+    {Your Professional Title}               % Title
+    {City, Country}                         % Address
+    {+1 234 567 8900}                       % Phone
+    {your.email@example.com}                % Email
+    {yourwebsite.com}                       % Website (without https://)
+    {your-github}                           % GitHub username
+    {your-linkedin}                         % LinkedIn username
+    {profile.jpeg}                          % Photo path (place your photo in same folder)
+
+%------------------------------------------------------------------------------
+% SUMMARY
+%------------------------------------------------------------------------------
+\summary{
+Experienced Software Engineer with an MSc in Computer Engineering, specializing in \textbf{Machine Learning}, \textbf{Deep Learning}, and \textbf{Computer Vision}. Strong technical foundation in developing algorithms through rigorous academic research and industry experience. Skilled in bridging the gap between theoretical AI models and practical deployment using \textbf{C++}, \textbf{Python}, and modern frameworks. Currently seeking to leverage this expertise to drive innovation in the technology sector.
+}
+
+%------------------------------------------------------------------------------
+% EDUCATION
+%------------------------------------------------------------------------------
+\coloredsection{Edu}{cation}
+
+\educationentry
+    {MSc Computer Engineering}              % Degree
+    {3.85/4.00}                             % GPA
+    {University Name}                       % School
+    {City, Country}                         % Place
+    {Sep 2021 -- Jun 2024}                  % Date
+\thesis{Your Thesis Title: A Study on Something Important}{https://link-to-your-thesis.com}
+\entrydescription{Focused on Machine Learning, Deep Learning, and Computer Vision. Conducted in-depth research on novel approaches to solve complex problems in the field.}
+\begin{entryitems}
+    \item Developed and trained models using \textbf{PyTorch} and \textbf{TensorFlow} frameworks.
+    \item Implemented novel algorithms achieving state-of-the-art results on benchmark datasets.
+    \item Published research findings in peer-reviewed conferences.
+    \item \bold{Tech Stack:} Python, PyTorch, TensorFlow, NumPy, Pandas, Linux.
+\end{entryitems}
+
+\educationentry
+    {BSc Computer Engineering}              % Degree
+    {3.50/4.00}                             % GPA
+    {University Name}                       % School
+    {City, Country}                         % Place
+    {Sep 2016 -- Jun 2020}                  % Date
+\thesisnolink{Your Bachelor Thesis Title Here.}
+\entrydescription{Focus: Software Engineering, Embedded Systems, and Computer Vision.}
+
+%------------------------------------------------------------------------------
+% PROFESSIONAL EXPERIENCE
+%------------------------------------------------------------------------------
+\coloredsection{Pro}{fessional Experience}
+
+\experienceentry
+    {Company Name Inc.}                     % Company
+    {City, Country}                         % Place
+    {Software Engineer}                     % Job Title
+    {Jan 2023 -- Present}                   % Date
+\entrydescription{Leading backend development and AI integration for innovative projects.}
+\begin{entryitems}
+    \item API \& Backend Development: Architected and developed scalable RESTful APIs using \textbf{Python (Flask/FastAPI)}.
+    \item AI Integration: Designed microservices integrating machine learning models for production use.
+    \item DevOps: Managed deployments using \textbf{Docker} and \textbf{CI/CD pipelines} on \textbf{Linux} servers.
+    \item Documentation: Prepared technical documentation and progress reports for stakeholders.
+\end{entryitems}
+
+\experienceentry
+    {Another Company Ltd.}                  % Company
+    {City, Country}                         % Place
+    {Junior Software Developer}             % Job Title
+    {Jun 2020 -- Dec 2022}                  % Date
+\entrydescription{Worked on embedded systems and signal processing projects.}
+\begin{entryitems}
+    \item Embedded Development: Developed firmware using C++ for microcontrollers.
+    \item Signal Analysis: Engineered algorithms in Python for data analysis and processing.
+    \item Project Management: Managed project timelines and technical documentation.
+\end{entryitems}
+
+\experienceentrysingleline
+    {Tech Startup}                          % Company
+    {City, Country}                         % Place
+    {Intern}                                % Job Title
+    {Summer 2019}                           % Date
+\entrydescription{Implemented communication protocols and assisted in sensor integration for autonomous systems.}
+
+%------------------------------------------------------------------------------
+% PROJECTS
+%------------------------------------------------------------------------------
+\coloredsection{Pro}{jects}
+
+\projectentry
+    {Team Lead \& Core Developer}           % Role
+    {Project Team Name}                     % Team
+    {City, Country}                         % Place
+    {2019 -- 2020}                          % Date
+\noindent
+\entrydescription{Led development for a competition project focusing on autonomous systems and computer vision.\\[0em]
+\textit{Ranked \textbf{Top 5} in National Competition.} \textbf{[\href{https://your-project-link.com}{\color{accent}Link}]}}
+\noindent
+\begin{entryitems}
+    \item Developed real-time detection and tracking algorithms using \textbf{C++} and \textbf{Python}.
+    \item Integrated multiple sensors for robust environmental perception.
+    \item Designed simulation environments for algorithm validation before deployment.
+    \item \textbf{Tech Stack:} C++, Python, ROS, OpenCV, Linux.
+\end{entryitems}
+
+%------------------------------------------------------------------------------
+% SKILLS
+%------------------------------------------------------------------------------
+\coloredsection{Ski}{lls}
+
+\begin{skillstable}
+    \skillcategory{Programming}{Python (Advanced), C++, MATLAB, SQL, Bash Scripting}
+    \skillcategory{AI \& ML}{PyTorch, TensorFlow, Keras, OpenCV, Scikit-learn}
+    \skillcategory{Tools \& DevOps}{Docker, Git, GitHub Actions (CI/CD), CMake, Linux (Ubuntu)}
+    \skillcategory{Frameworks}{Flask, FastAPI, ROS/ROS2}
+    \skillcategory{Soft Skills}{Problem Solving, Technical Writing, Team Leadership, Agile/Scrum}
+    \skillcategory{Languages}{English (Professional), Your Native Language (Native)}
+\end{skillstable}
+
+%------------------------------------------------------------------------------
+% CERTIFICATES
+%------------------------------------------------------------------------------
+\coloredsection{Cer}{tificates}
+
+\certificateentrylink
+    {2023}                                  % Date
+    {Deep Learning Specialization}          % Name
+    {Coursera -- Andrew Ng}                 % Course - Institution
+    {https://your-certificate-link.com}     % Link
+
+\certificateentry
+    {2022}                                  % Date
+    {Another Certificate Name}              % Name
+    {Platform -- Instructor Name}           % Course - Institution
+
+\end{document}
