@@ -19,27 +19,68 @@ A professional, customizable, and ATS (Applicant Tracking System) friendly resum
 
 ## 📸 Preview
 
-| With Photo | Without Photo |
-|:----------:|:-------------:|
-| ![With Photo](preview_with_photo.png) | ![Without Photo](preview_without_photo.png) |
+<p align="center">
+  <img src="preview/with_photo.png" alt="Resume with Photo" width="45%"/>
+  &nbsp;&nbsp;
+  <img src="preview/without_photo.png" alt="Resume without Photo" width="45%"/>
+</p>
+
+<p align="center">
+  <em>Left: With Photo Layout</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <em>Right: Without Photo Layout</em>
+</p>
+
+> 📄 **[View Full PDF Example](resume.pdf)**
+
+### Layout Options
+
+| Feature | With Photo | Without Photo |
+|:--------|:----------:|:-------------:|
+| Command | `\makeheaderwithphoto` | `\makeheader` |
+| Photo | Circular photo on right | No photo |
+| Contact Info | Left-aligned with icons | Centered with bullets |
+| Best For | Creative/Design roles | Traditional/Corporate |
+
+To switch between layouts, comment/uncomment the appropriate header command in `resume.tex`:
+
+```latex
+% Option 1: WITHOUT photo (centered layout)
+%\makeheader
+%    {Your Name}
+%    {Your Title}
+%    ...
+
+% Option 2: WITH photo (side-by-side layout)
+\makeheaderwithphoto
+    {Your Name}
+    {Your Title}
+    ...
+    {profile.jpeg}    % Your photo file
+```
 
 ## 📁 File Structure
 
 ```
-resume/
-├── resume.tex          # Main resume file
-├── fonts/              # Place custom fonts here (.ttf files)
+resume-template/
+├── README.md               # This documentation
+├── resume.tex              # Main LaTeX template
+├── resume.pdf              # Example compiled PDF
+├── .gitignore              # Git ignore file
+├── profile.jpeg            # Your profile photo (optional)
+├── fonts/                  # Custom fonts folder
+│   ├── README.md
 │   ├── Roboto-Regular.ttf
-│   ├── Roboto-Bold.ttf
 │   └── ...
-├── icons/              # SVG icons for header
+├── icons/                  # SVG icons for header
+│   ├── README.md
 │   ├── iphone.svg
 │   ├── envelope.svg
 │   ├── linkedin.svg
 │   ├── github.svg
 │   └── website.svg
-├── profile.jpeg        # Your profile photo (optional)
-└── README.md           # This file
+└── preview/                # Preview images for README
+    ├── with_photo.png
+    └── without_photo.png
 ```
 
 ## 🚀 Quick Start
